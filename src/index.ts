@@ -2,7 +2,7 @@
  * @Author: Yang Lin
  * @Description: 插件入口页
  * @Date: 2020-11-03 15:43:27
- * @LastEditTime: 2020-11-03 17:38:31
+ * @LastEditTime: 2020-11-03 17:41:14
  * @FilePath: d:\demos\webpack\tiny-webpack-plugin\src\index.ts
  */
 import Options from './options';
@@ -20,8 +20,6 @@ const defaultOptions: Options = {
     enable: true
 };
 
-console.log(schema);
-
 const id: string = 'TinyWebpackPlugin';
 
 class TinyWebpackPlugin {
@@ -29,19 +27,7 @@ class TinyWebpackPlugin {
 
     constructor(opt: Options){
         const options = Object.assign(defaultOptions, opt);
-        validate({
-            type: 'object',
-            properties: {
-                log: {
-                    description: '是否打印日志信息',
-                    type: 'boolean'
-                },
-                enable: {
-                    description: '是否开启图片压缩',
-                    type: 'boolean'
-                }
-            }
-        }, options, {
+        validate(schema, options, {
             name: id,
             baseDataPath: 'options'
         });

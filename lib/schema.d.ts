@@ -1,14 +1,3 @@
-declare const _default: {
-    type: string;
-    properties: {
-        log: {
-            description: string;
-            type: string;
-        };
-        enable: {
-            description: string;
-            type: string;
-        };
-    };
-};
-export default _default;
+import { Schema } from 'schema-utils/declarations/validate';
+declare const schema: Schema;
+export default schema;

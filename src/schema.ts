@@ -2,10 +2,14 @@
  * @Author: Yang Lin
  * @Description: schema 插件参数验证
  * @Date: 2020-11-03 16:02:27
- * @LastEditTime: 2020-11-03 17:37:52
+ * @LastEditTime: 2020-11-03 17:40:58
  * @FilePath: d:\demos\webpack\tiny-webpack-plugin\src\schema.ts
  */
-export default {
+import {
+    Schema
+} from 'schema-utils/declarations/validate';
+
+const schema: Schema =  {
     type: 'object',
     properties: {
         log: {
@@ -18,3 +22,5 @@ export default {
         }
     }
 }
+
+export default schema;
