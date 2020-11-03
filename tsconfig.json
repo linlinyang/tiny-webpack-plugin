@@ -1,0 +1,33 @@
+/*
+ * @Author: Yang Lin
+ * @Description: 简介
+ * @Date: 2020-11-03 15:13:57
+ * @LastEditTime: 2020-11-03 16:47:46
+ * @FilePath: d:\demos\webpack\tiny-webpack-plugin\tsconfig.json
+ */
+{
+    "compilerOptions": {
+      "outDir": "./lib/",
+      "noImplicitAny": true,
+      "module": "commonjs",
+      "target": "es6",
+      "moduleResolution": "Node",
+      "allowJs": true,
+      "esModuleInterop": true,
+      "declaration": true,
+      "strict": true,
+      "sourceMap": true,
+      "noImplicitThis": false,
+      "resolveJsonModule": true,
+      "types": [
+        "node",
+        "webpack"
+      ]
+    },
+    "include": [
+      "src/**/*"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+}
