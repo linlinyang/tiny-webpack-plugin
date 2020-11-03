@@ -2,13 +2,13 @@
  * @Author: Yang Lin
  * @Description: 简介
  * @Date: 2020-11-03 15:17:42
- * @LastEditTime: 2020-11-03 16:40:40
+ * @LastEditTime: 2020-11-03 17:13:17
  * @FilePath: d:\demos\webpack\tiny-webpack-plugin\webpack.config.js
  */
 
 const path = require('path');
 const pathResolve = filename => path.resolve(__dirname,filename);
-//const TinyimgPlugin = pathResolve('./lib/index.js');
+const TinyimgPlugin = require('./lib/index');
 
 module.exports = {
     entry: pathResolve('example/index.js'),
@@ -30,9 +30,9 @@ module.exports = {
         }]
     },
     plugins: [
-        /* new TinyimgPlugin({
+        new TinyimgPlugin.default({
             enabled: true,
             logged: true
-        }) */
+        })
     ]
 };
