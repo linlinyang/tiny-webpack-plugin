@@ -2,8 +2,8 @@
  * @Author: Yang Lin
  * @Description: 插件入口页
  * @Date: 2020-11-03 15:43:27
- * @LastEditTime: 2020-11-03 17:41:14
- * @FilePath: d:\demos\webpack\tiny-webpack-plugin\src\index.ts
+ * @LastEditTime: 2020-11-03 19:48:56
+ * @FilePath: f:\sourcecode\tiny-webpack-plugin\src\index.ts
  */
 import Options from './options';
 import {
@@ -22,6 +22,8 @@ const defaultOptions: Options = {
 
 const id: string = 'TinyWebpackPlugin';
 
+const IMGEXP = /\.(jpe?g|png)/;
+
 class TinyWebpackPlugin {
     opt: Options;
 
@@ -36,8 +38,22 @@ class TinyWebpackPlugin {
     }
 
     apply(compiler: Compiler){
-        compiler.hooks.emit.tap(id, (compilation: Compilation) => {
-            console.log('some codes');
+        const {
+            enable
+        } = this.opt;
+
+        // 不启动图片压缩
+        if(!enable){
+            return ;
+        }
+        compiler.hooks.emit.tapAsync(id, (compilation: Compilation, callback) => {
+            const imgPaths: string[] = Object.keys(compilation.assets).filter(key => IMGEXP.test(key));
+            if(imgPaths.length === 0){
+                callback();
+                return ;
+            }
+
+            const total = imgPaths.length;
         });
     }
 }
