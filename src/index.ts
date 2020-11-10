@@ -2,7 +2,7 @@
  * @Author: Yang Lin
  * @Description: 插件入口页
  * @Date: 2020-11-03 15:43:27
- * @LastEditTime: 2020-11-09 16:38:36
+ * @LastEditTime: 2020-11-10 17:29:24
  * @FilePath: d:\demos\webpack\tiny-webpack-plugin\src\index.ts
  */
 import Options from './options';
@@ -16,27 +16,24 @@ import {
 } from 'webpack';
 import compress from './compress';
 import {
-    errorData,
     compressData
 } from './utils/response';
 import {
-    RawSource as originRawSource
-} from 'webpack-sources';
-import {
     Compiler,
-    getWebpackVersion
+    getWebpackVersion,
+    RawSource
 } from './utils/webpack';
+import {
+    byteSize,
+    id,
+    IMGEXP
+} from './utils/index';
+import colors from 'colors';
 
 const defaultOptions: Options = {
     log: false,
     enable: true
 };
-
-const id: string = 'TinyWebpackPlugin';
-
-const IMGEXP = /\.(jpe?g|png)/;
-
-const RawSource = sources?.RawSource || originRawSource;
 
 class TinyWebpackPlugin {
     opt: Options;
@@ -98,9 +95,9 @@ class TinyWebpackPlugin {
         }
     }
 
-    async handleImg (compilation: Compilation) {
+    handleImg (compilation: Compilation): Promise<void>{
         let imgPaths: string[];
-        if(compilation.getAssets){ // webpack >= 5
+        if (compilation.getAssets) { // webpack >= 5
             imgPaths = compilation.getAssets().reduce((acc: string[],asset) => {
                 if(IMGEXP.test(asset.name)){
                     acc.push(asset.name);
@@ -112,37 +109,68 @@ class TinyWebpackPlugin {
         }
         
         const total: number = imgPaths.length;
-        if(total === 0){
+        if (total === 0) {
             return Promise.resolve();
         }
 
-        let errs: Array<Error | errorData> = [];
-        for(let i: number = 0; i < total; i++){
-            const path: string = imgPaths[i];
-            const source: sources.Source = compilation.getAsset 
-                ? compilation.getAsset(path).source 
-                : compilation.assets[path];
-            if (!source) {
-                continue;
-            }
-            try {
-                const data: compressData = await compress(source);
-                if (compilation.updateAsset) {
-                    compilation.updateAsset(
-                        path,
-                        new RawSource(Buffer.alloc(data.file.length, data.file, 'binary'), false)
-                    );
-                } else {
-                    compilation.assets[path] = new RawSource(Buffer.alloc(data.file.length, data.file, 'binary'), false);
-                }
-            } catch (error) {
-                errs.push(error);
-            }
-        }
+        const {
+            log
+        } = this.opt;
+        let successCounter = 0;
+        log && console.log('[tiny-webpack-plugin] 开始压缩图片...');
+        return new Promise((resolve, reject) => {
+            let totalOriginSize: number = 0;
+            let totalCompressedSize: number = 0;
+            for (let i: number = 0; i < total; i++) {
+                const path: string = imgPaths[i];
+                const source: sources.Source = compilation.getAsset
+                    ? compilation.getAsset(path).source
+                    : compilation.assets[path];
 
-        if (errs.length > 0) {
-            return Promise.reject(errs);
-        }
+                if(!source){
+                    continue ;
+                }
+
+                compress(source).then((data: compressData) => {
+                    if(log){
+                        const successTips: string = colors.green(`${path} 压缩成功！`);
+                        const originSize: string = colors.blue(byteSize(data.originSize));
+                        const compressedSize: string = colors.blue(byteSize(data.size));
+                        const ratio: string = ((1 - data.ratio) * 100).toFixed(2);
+                        const ratioTips: string = colors.green(`压缩率：${ratio}%`);
+                        console.log(`[tiny-webpack-plugin] ${successTips} ${originSize} -> ${compressedSize}（${ratioTips}）`);
+                    }
+                    totalOriginSize += data.originSize;
+                    totalCompressedSize += data.size;
+                    if (compilation.updateAsset) {
+                        compilation.updateAsset(
+                            path,
+                            new RawSource(Buffer.alloc(data.file.length, data.file, 'binary'), false)
+                        );
+                    } else {
+                        compilation.assets[path] = new RawSource(Buffer.alloc(data.file.length, data.file, 'binary'), false);
+                    }
+                    if (++successCounter === total) {
+                        if(log){
+                            const finishedTips: string = colors.green('所有图片全部压缩完成！');
+                            const totalOriginSizeTips: string = colors.blue(byteSize(totalOriginSize));
+                            const totalCompressedSizeTips: string = colors.blue(byteSize(totalCompressedSize));
+                            const ratio: string = totalOriginSize === 0 
+                                ? '0'
+                                : ((1 - (totalCompressedSize / totalOriginSize)) * 100).toFixed(2)
+                            const totalRatioTips: string = colors.green(`压缩率：${ratio}%`);
+                            console.log(`[tiny-webpack-plugin] ${finishedTips} ${totalOriginSizeTips} -> ${totalCompressedSizeTips}（${totalRatioTips}）`);
+                        }
+                        resolve();
+                    }
+                }, error => {
+                    if (log) {
+                        console.log(`[tiny-webpack-plugin] ${colors.red(`${path} 压缩失败！`)}`);
+                    }
+                    reject(error);
+                });
+            }
+        });
     }
 }
 

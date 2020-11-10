@@ -2,14 +2,18 @@
  * @Author: Yang Lin
  * @Description: webpack 兼容性属性
  * @Date: 2020-11-06 17:07:44
- * @LastEditTime: 2020-11-09 13:41:18
+ * @LastEditTime: 2020-11-10 17:28:53
  * @FilePath: d:\demos\webpack\tiny-webpack-plugin\src\utils\webpack.ts
  */
 import {
     Compiler,
     Compilation,
-    version
+    version,
+    sources
 } from 'webpack';
+import {
+    RawSource as originRawSource
+} from 'webpack-sources';
 
 interface CompilerAdap extends Compiler {
     plugin?: (
@@ -34,7 +38,10 @@ function getWebpackVersion(tag: number = 4): string{
     }
 }
 
+const RawSource = sources?.RawSource || originRawSource;
+
 export {
     CompilerAdap as Compiler,
-    getWebpackVersion
+    getWebpackVersion,
+    RawSource
 };

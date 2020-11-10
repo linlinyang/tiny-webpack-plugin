@@ -2,7 +2,7 @@
  * @Author: Yang Lin
  * @Description: 简介
  * @Date: 2020-11-03 15:17:42
- * @LastEditTime: 2020-11-09 16:24:25
+ * @LastEditTime: 2020-11-10 17:35:27
  * @FilePath: d:\demos\webpack\tiny-webpack-plugin\webpack.config.js
  */
 
@@ -27,14 +27,20 @@ module.exports = {
                     name: '[name].[ext]',
                     outputPath: 'images'
                 }
-            }]
+            }/* ,{
+                loader: 'file-loader',
+                options: {
+                    name: '[path][name].[ext]'
+                }
+            } */]
         }]
     },
     plugins: [
         new CleanWebpackPlugin(),
         new TinyWebpackPlugin({
-            enabled: true,
-            logged: true
+            log: true,
+            enable: true
         })
-    ]
+    ],
+    mode: 'development'
 };

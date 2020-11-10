@@ -4,4 +4,5 @@ node_modules
 TODOs.md
 RELEASE_NOTE*.md
 .vscode
-lib/*.map
+lib
+dist

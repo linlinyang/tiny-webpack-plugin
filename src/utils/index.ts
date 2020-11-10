@@ -2,20 +2,19 @@
  * @Author: Yang Lin
  * @Description: 工具方法
  * @Date: 2020-11-03 20:17:50
- * @LastEditTime: 2020-11-04 15:16:57
+ * @LastEditTime: 2020-11-10 17:27:17
  * @FilePath: d:\demos\webpack\tiny-webpack-plugin\src\utils\index.ts
  */
-import https from 'https';
-import {
-    OutgoingHttpHeaders
-} from 'http';
-
 const DOMAINS = [
     'tinyjpg.com',
 	'tinypng.com'
 ];
 
-function genRandomIp(): string{
+const id: string = 'TinyWebpackPlugin';
+
+const IMGEXP: RegExp = /\.(jpe?g|png)/;
+
+function randomIp(): string{
     const ret: number[] = [];
     let len: number = 4;
 
@@ -26,24 +25,24 @@ function genRandomIp(): string{
     return ret.join('.');
 }
 
-function randomHeader(): https.RequestOptions{
-    const ip: string = genRandomIp();
-    const domain: string = DOMAINS[(Math.random() * 2) | 0];
-    return {
-        headers: {
-            'Cache-Control': 'no-cache',
-            "Content-Type": "application/x-www-form-urlencoded",
-			"Postman-Token": Date.now(),
-			"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36",
-			"X-Forwarded-For": ip
-        } as OutgoingHttpHeaders,
-        hostname: domain,
-        method: 'POST',
-        path: '/web/shrink',
-        rejectUnauthorized: false
-    };
+function randomDomain(): string{
+    return DOMAINS[(Math.random() * 2) | 0];
+}
+
+function byteSize(byte: number): string {
+    if(byte === 0){
+        return '0 B';
+    }
+    const symbols: string[] = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    let index: number = Math.floor(Math.log(byte) / Math.log(1024));
+
+    return `${(byte / Math.pow(1024, index)).toFixed(2)}${symbols[index]}`;
 }
 
 export {
-    randomHeader
+    randomIp,
+    byteSize,
+    randomDomain,
+    id,
+    IMGEXP
 };
