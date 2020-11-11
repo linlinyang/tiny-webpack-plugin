@@ -1,19 +1,32 @@
 {
   "name": "tiny-webpack-plugin",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "compress image",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "dev": "tsc && webpack --config ./webpack.config.js",
     "build": "tsc",
     "test": "webpack --config ./webpack.config.js",
     "test5": "npm i webpack@5.4.0 webpack-cli@4.2.0 && webpack --config ./webpack.config.js",
     "test4": "npm i webpack@4.1.0 webpack-cli@3.1.0 && webpack --config ./webpack.config.js",
-    "test3": "npm i webpack@3.6.0 webpack-cli@2.0.1 && webpack --config ./webpack.config.js"
+    "test3": "npm i webpack@3.6.0 webpack-cli@2.0.1 && webpack --config ./webpack3.config.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "webpack",
+    "compress",
+    "plugin",
+    "tiny",
+    "image"
+  ],
+  "author": "Zoro Yang<935704186@qq.com>",
   "license": "ISC",
+  "repository": "https://github.com/linlinyang/tiny-webpack-plugin",
+  "homepage": "https://github.com/linlinyang/tiny-webpack-plugin",
+  "bugs": "https://github.com/linlinyang/tiny-webpack-plugin/issues",
   "devDependencies": {
     "@types/node": "^14.14.7",
     "@types/webpack": "^4.41.24",

@@ -6,3 +6,4 @@ RELEASE_NOTE*.md
 .vscode
 lib
 dist
+package-lock.json
