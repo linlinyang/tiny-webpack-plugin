@@ -2,9 +2,10 @@
  * @Author: Yang Lin
  * @Description: webpack 兼容性属性
  * @Date: 2020-11-06 17:07:44
- * @LastEditTime: 2020-11-10 17:28:53
+ * @LastEditTime: 2020-11-11 15:59:47
  * @FilePath: d:\demos\webpack\tiny-webpack-plugin\src\utils\webpack.ts
  */
+
 import {
     Compiler,
     Compilation,
@@ -25,9 +26,9 @@ interface CompilerAdap extends Compiler {
     ) => void
 }
 
-function getWebpackVersion(tag: number = 4): string{
+function getWebpackVersion (tag: number = 4): string {
     const versionArr = version.split('.');
-    if(tag & 4){
+    if (tag & 4) {
         return versionArr[0];
     } else if (tag & 2) {
         return versionArr[2];

@@ -151,7 +151,7 @@ class TinyWebpackPlugin {
                         compilation.assets[path] = new RawSource(Buffer.alloc(data.file.length, data.file, 'binary'), false);
                     }
                     if (++successCounter === total) {
-                        if(log){
+                        if (log) {
                             const finishedTips: string = colors.green('所有图片全部压缩完成！');
                             const totalOriginSizeTips: string = colors.blue(byteSize(totalOriginSize));
                             const totalCompressedSizeTips: string = colors.blue(byteSize(totalCompressedSize));

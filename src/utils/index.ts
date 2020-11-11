@@ -2,7 +2,7 @@
  * @Author: Yang Lin
  * @Description: 工具方法
  * @Date: 2020-11-03 20:17:50
- * @LastEditTime: 2020-11-10 17:27:17
+ * @LastEditTime: 2020-11-11 15:17:49
  * @FilePath: d:\demos\webpack\tiny-webpack-plugin\src\utils\index.ts
  */
 const DOMAINS = [
@@ -13,17 +13,6 @@ const DOMAINS = [
 const id: string = 'TinyWebpackPlugin';
 
 const IMGEXP: RegExp = /\.(jpe?g|png)/;
-
-function randomIp(): string{
-    const ret: number[] = [];
-    let len: number = 4;
-
-    while(len--){
-        ret.push((Math.random() * 256) | 0);
-    }
-
-    return ret.join('.');
-}
 
 function randomDomain(): string{
     return DOMAINS[(Math.random() * 2) | 0];
@@ -40,7 +29,6 @@ function byteSize(byte: number): string {
 }
 
 export {
-    randomIp,
     byteSize,
     randomDomain,
     id,

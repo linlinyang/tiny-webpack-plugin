@@ -2,7 +2,7 @@
  * @Author: Yang Lin
  * @Description: 图片压缩函数
  * @Date: 2020-11-03 19:49:34
- * @LastEditTime: 2020-11-10 17:11:40
+ * @LastEditTime: 2020-11-11 15:25:50
  * @FilePath: d:\demos\webpack\tiny-webpack-plugin\src\compress.ts
  */
 import {
@@ -12,7 +12,6 @@ import https from 'https';
 import http from 'http';
 import httpUrl from 'url';
 import {
-    randomIp,
     randomDomain
 } from './utils/index';
 import {
@@ -21,7 +20,7 @@ import {
     compressData
 } from './utils/response';
 
-async function compress(
+async function compress (
     file: sources.Source,
     retryTimes: number = 2
 ): Promise<any> {
@@ -70,9 +69,9 @@ async function compress(
     }
 }
 
-function downloadImg(url: string): Promise<any> {
+function downloadImg (url: string): Promise<any> {
     const options: httpUrl.URL = new httpUrl.URL(url);
-    return new Promise((resolve, reject) => {
+    return new Promise ((resolve, reject) => {
         const req = https.request(options, (res: http.IncomingMessage) => {
             res.setEncoding('binary');
             let file = '';
@@ -90,7 +89,7 @@ function downloadImg(url: string): Promise<any> {
  * 图片上传压缩
  * @param file { Object } ; 被压缩的图片资源
  */
-function uploadImg(
+function uploadImg (
     file: sources.Source
 ): Promise<any> {
     const options: https.RequestOptions = {
@@ -99,7 +98,6 @@ function uploadImg(
             "Content-Type": "application/x-www-form-urlencoded",
 			"Postman-Token": Date.now(),
 			"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36",
-			"X-Forwarded-For": randomIp()
         },
         hostname: randomDomain(),
         method: 'POST',
@@ -121,7 +119,7 @@ function uploadImg(
         request.on('error', (error: Error) => {
             reject(error as Error);
         });
-        request.end()
+        request.end();
     });
 }
 

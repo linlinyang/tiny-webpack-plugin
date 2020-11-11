@@ -2,7 +2,7 @@
  * @Author: Yang Lin
  * @Description: 简介
  * @Date: 2020-11-03 15:17:42
- * @LastEditTime: 2020-11-10 17:35:27
+ * @LastEditTime: 2020-11-11 15:03:33
  * @FilePath: d:\demos\webpack\tiny-webpack-plugin\webpack.config.js
  */
 
@@ -24,15 +24,10 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 8192, //小于8192字节图片转为base64
-                    name: '[name].[ext]',
+                    name: '[name].[hash].[ext]',
                     outputPath: 'images'
                 }
-            }/* ,{
-                loader: 'file-loader',
-                options: {
-                    name: '[path][name].[ext]'
-                }
-            } */]
+            }]
         }]
     },
     plugins: [

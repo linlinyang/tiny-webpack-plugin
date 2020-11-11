@@ -2,7 +2,7 @@
  * @Author: Yang Lin
  * @Description: 简介
  * @Date: 2020-11-11 10:33:34
- * @LastEditTime: 2020-11-11 10:33:53
+ * @LastEditTime: 2020-11-11 15:03:44
  * @FilePath: d:\demos\webpack\tiny-webpack-plugin\webpack3.config.js
  */
 const path = require('path');
@@ -22,7 +22,7 @@ module.exports = {
             use: [{
                 loader: 'file-loader',
                 options: {
-                    name: '[path][name].[ext]'
+                    name: '[name].[hash].[ext]'
                 }
             }]
         }]
@@ -33,6 +33,5 @@ module.exports = {
             log: true,
             enable: true
         })
-    ],
-    mode: 'development'
+    ]
 };
